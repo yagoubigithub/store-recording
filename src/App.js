@@ -8,16 +8,21 @@ import ProductList from './components/ProductList';
 import Deatils from './components/Deatils';
 import Cart from './components/Cart';
 import Default from './components/Default';
-
+import {Switch,Route} from 'react-router-dom';
 
 function App() {
   return (
    <React.Fragment>
      <Navbar />
-     <ProductList />
-     <Deatils />
-     <Cart />
-     <Default />
+     <Switch>
+       <Route exact path='/' component={ProductList}  />
+       <Route path='/details' component={Deatils}  />
+       <Route path='/cart' component={Cart}  />
+       <Route  component={Default}  />
+     </Switch>
+    
+    
+   
    </React.Fragment>
   );
 }
