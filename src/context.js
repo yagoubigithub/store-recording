@@ -17,8 +17,9 @@ export default class ProductProvider extends Component {
     handleDetail = ()=>{
 
     }
-    addToCart = ()=>{
+    addToCart = (id)=>{
 
+        console.log("add to cart " + id)
     }
     getProduct = (id)=>{
        return  db.collection("storeProducts")
