@@ -6,7 +6,7 @@ const ProductContext = React.createContext();
 export default class ProductProvider extends Component {
     state= {
         products : [],
-        detailProduct :detailProduct,
+        detailProduct :{},
         
       
     }
@@ -14,27 +14,25 @@ export default class ProductProvider extends Component {
      //   this.setAlldata();
         this.watchProducts();
      }
-    handleDetail = ()=>{
+     getItem = (id) =>{
+         const product = this.state.products.filter(product=>{
+            return product.id === id;
+          })[0];
+        
+         return product;
+     }
+    handleDetail = (id)=>{
+        const detailProduct = this.getItem(id);
 
+        this.setState({detailProduct });
+
+       
     }
     addToCart = (id)=>{
 
         console.log("add to cart " + id)
     }
-    getProduct = (id)=>{
-       return  db.collection("storeProducts")
-        .doc(id)
-        .get()
-        .then(doc => {
-          const product = doc.data();
-          this.setState({product});
-          console.log(product);
-         
-        }).catch(error =>{
-            console.log("Error in database",error);
-            
-        });
-    }
+   
    /*setAlldata = ()  =>{
     storeProducts.map(item=>{
         db.collection("storeProducts").doc().set({...item});

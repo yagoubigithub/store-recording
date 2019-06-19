@@ -13,9 +13,7 @@ export default class Details extends Component {
      
          <ProductConsumer>
          {value=>{
-           const product = value.products.filter(product=>{
-             return product.id === this.props.match.params.id;
-           })[0];
+           const product = value.detailProduct;
            if(product !== undefined){
              const {id,company,title,info,img,price,inCart} = product;
              console.log(img)
