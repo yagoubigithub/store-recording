@@ -8,7 +8,7 @@ export default class ProductProvider extends Component {
         products : [],
         detailProduct :{},
         cart : [],
-        modalOpen : true,
+        modalOpen : false,
         modalProduct : detailProduct
 
         
