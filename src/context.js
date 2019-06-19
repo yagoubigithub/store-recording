@@ -9,7 +9,10 @@ export default class ProductProvider extends Component {
         detailProduct :{},
         cart : [],
         modalOpen : false,
-        modalProduct : detailProduct
+        modalProduct : detailProduct,
+        cartSubTotal : 0,
+        cartTax : 0,
+        cartTotal : 0,
 
         
       
@@ -18,6 +21,19 @@ export default class ProductProvider extends Component {
      //   this.setAlldata();
         this.watchProducts();
      }
+
+     increment = id =>{
+         console.log("this is increment method", id);
+     }
+     decrement = id =>{
+        console.log("this is decrement method", id);
+     }
+     removeItem = id =>{
+         console.log("this removeItem method ",id);
+     }
+     clearCart = () =>{
+        console.log("this clearCart method ");
+     }
      getItem = (id) =>{
          const product = this.state.products.filter(product=>{
             return product.id === id;
@@ -25,6 +41,7 @@ export default class ProductProvider extends Component {
         
          return product;
      }
+     
     handleDetail = (id)=>{
         const detailProduct = this.getItem(id);
 
