@@ -113,9 +113,17 @@ export default class ProductProvider extends Component {
  
    openModal = id =>{
        const product = this.getItem(id);
-
-       
+       this.setState(()=>{
+           return {
+               modalProduct : product,
+               modalOpen : true
+           }
+       })
    }   
+   closeModal = () =>{
+       this.setState({modalOpen : false})
+
+   }
     render() {
         return (
             <ProductContext.Provider value={
@@ -123,6 +131,8 @@ export default class ProductProvider extends Component {
             handleDetail :this.handleDetail,
             addToCart :this.addToCart,
             getProduct : this.getProduct,
+            openModal : this.openModal,
+            closeModal : this.closeModal
            
            }
             }>
