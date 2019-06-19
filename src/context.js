@@ -7,6 +7,10 @@ export default class ProductProvider extends Component {
     state= {
         products : [],
         detailProduct :{},
+        cart : [],
+        modalOpen : true,
+        modalProduct : detailProduct
+
         
       
     }
@@ -30,7 +34,38 @@ export default class ProductProvider extends Component {
     }
     addToCart = (id)=>{
 
-        console.log("add to cart " + id)
+        const tempProducts = [...this.state.products];
+        const index= tempProducts.indexOf(this.getItem(id));
+        const product = tempProducts[index];
+
+        product.inCart = true;
+        product.count = 1;
+        const price = product.price;
+        product.total = price;
+
+
+        db.collection("storeProducts").doc(id).set({...product});
+
+        db.collection("cart").doc(id).set({...product},{merge: true})
+        .then(function() {
+            console.log("Document successfully written!");
+        })
+        .catch(function(error) {
+            console.error("Error writing document: ", error);
+        });
+
+/*
+        const tempProducts = [...this.state.products];
+        const index= tempProducts.indexOf(this.getItem(id));
+        const product = tempProducts[index];
+        product.inCart = true;
+        product.count = 1;
+        const price = product.price;
+        const total = price;
+        this.setState({
+            products:tempProducts,
+            cart : [...this.state.cart,product]
+        })*/
     }
    
    /*setAlldata = ()  =>{
@@ -76,7 +111,11 @@ export default class ProductProvider extends Component {
         });
       }
  
-      
+   openModal = id =>{
+       const product = this.getItem(id);
+
+       
+   }   
     render() {
         return (
             <ProductContext.Provider value={
