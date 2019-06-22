@@ -35,8 +35,17 @@ export default class ProductProvider extends Component {
         })
      }
      clearCart = () =>{
-        console.log("this clearCart method ");
+        this.state.cart.map(item=>{
+            db.collection("cart").doc(item.id).delete().then(()=>{
+                db.collection("storeProducts").doc(item.id).update({inCart: false});
+            }).catch((error)=>{
+  
+                console.log(error);
+            })
+        })
+       
      }
+     
      getItem = (id) =>{
          const product = this.state.products.filter(product=>{
             return product.id === id;
