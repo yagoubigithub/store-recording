@@ -7,7 +7,7 @@ export default class ProductProvider extends Component {
     state= {
         products : [],
         detailProduct :{},
-        cart : storeProducts,
+        cart : [],
         modalOpen : false,
         modalProduct : detailProduct,
         cartSubTotal : 0,
@@ -18,7 +18,7 @@ export default class ProductProvider extends Component {
       
     }
     componentDidMount() {
-     //   this.setAlldata();
+       // this.setAlldata();
         this.watchProducts();
      }
 
@@ -29,7 +29,10 @@ export default class ProductProvider extends Component {
         console.log("this is decrement method", id);
      }
      removeItem = id =>{
-         console.log("this removeItem method ",id);
+        db.collection("cart").doc(id).delete().catch((error)=>{
+  
+            console.log(error);
+        })
      }
      clearCart = () =>{
         console.log("this clearCart method ");
@@ -85,7 +88,7 @@ export default class ProductProvider extends Component {
         })*/
     }
    
-   /*setAlldata = ()  =>{
+ /*  setAlldata = ()  =>{
     storeProducts.map(item=>{
         db.collection("storeProducts").doc().set({...item});
     })
@@ -101,6 +104,17 @@ export default class ProductProvider extends Component {
           this.setState({products});
         
       }
+      setCart = (cart) => {
+        let tempCart = [];
+
+        cart.forEach(item => {
+           
+            tempCart = [...tempCart,item];
+            
+        });
+        this.setState({cart : tempCart});
+      
+    }
       watchProducts = () =>{
 
         db.collection("storeProducts").onSnapshot((querySnapshot)=>{
@@ -126,6 +140,33 @@ export default class ProductProvider extends Component {
         this.setProducts(products);
           
         });
+
+// get cart 
+db.collection("cart").onSnapshot((querySnapshot)=>{
+    const cart = querySnapshot.docs.map((doc,index) => {
+        return {
+            id :  querySnapshot.docs[index].id,
+            ...doc.data(),
+
+        }
+  });
+  this.setCart(cart);
+})
+db.collection("cart")
+.get()
+.then(querySnapshot => {
+  const cart = querySnapshot.docs.map((doc,index) => {
+      return {
+          id :  querySnapshot.docs[index].id,
+          ...doc.data(),
+
+      }
+});
+this.setCart(cart);
+  
+});
+
+
       }
  
    openModal = id =>{
@@ -149,7 +190,11 @@ export default class ProductProvider extends Component {
             addToCart :this.addToCart,
             getProduct : this.getProduct,
             openModal : this.openModal,
-            closeModal : this.closeModal
+            closeModal : this.closeModal,
+            decrement :this.decrement,
+            increment :this.increment,
+            removeItem : this.removeItem,
+            clearCart :this.clearCart
            
            }
             }>
