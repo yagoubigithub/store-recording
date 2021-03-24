@@ -1,1 +1,5 @@
-{}
+{
+  "projects": {
+    "store-recording": "store-recording"
+  }
+}
